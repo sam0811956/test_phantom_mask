@@ -3,15 +3,19 @@ from django.db import models
 class PharMacies(models.Model):
     name = models.CharField(max_length=100, null=False)
     cashbalance = models.FloatField(null=False)
+#    objects = PharMaciesManager()
+#objects = models.Manager()
 
     def __str__(self):
-        return '{0} (cash: {1})'.format(self.name, self.cash_balance)
+        return '{0} (cash: {1})'.format(self.name, self.cashbalance)
 
 
 class Mask(models.Model):
     pharmacies = models.ForeignKey(PharMacies, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=False)
     price = models.FloatField(null=False)
+#objects = MaskManager()
+#objects = models.Manager()
 
     def __str__(self):
         return '{0} (price: {1})'.format(self.name, self.price)
@@ -32,6 +36,8 @@ class OpeningHour(models.Model):
     start_min = models.PositiveSmallIntegerField(null=True)
     end_hour = models.PositiveSmallIntegerField(null=True)
     end_min = models.PositiveSmallIntegerField(null=True)
+#objects = models.Manager()
+#objects = OpeningHourManager()
 
     def __str__(self):
         return '{0} ({1}:{2} - {3}:{4})'.format(
