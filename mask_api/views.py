@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from mask_api.models import PharMacies, Mask, OpeningHour
+from django.core import serializers
 
 
 @api_view(['GET'])
@@ -39,15 +40,31 @@ def find_pharm_op_weekday_hour(request):
             })
 
     
+@api_view(['GET'])
+def find_pharm_sold_mask_sort(request):
+    req_pharm_name = request.query_params.get('pharm')
+    req_sort = request.query_params.get('sort')
+    """
+    {
+      "pharm":"Cash Saver Pharmacy",
+      "sort": "name"
+    }
+    """
+    """ 
+    {
+      "pharm":"Cash Saver Pharmacy",
+      "sort": "price"
+    }
 
+    """
+    mask_sort = list(map(lambda mask: str(mask), \
+                Mask.objects.filter(pharmacies__name=req_pharm_name) \
+                .order_by(req_sort))
+                )
+
+    return Response({ 
+            "mask_sort": mask_sort,
+            "request_data": request.query_params
+            })
     
-
-    
-
-
-
-
-
-
-
 
