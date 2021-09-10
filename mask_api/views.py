@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Count
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from mask_api.models import PharMacies, Mask, OpeningHour
@@ -67,4 +68,36 @@ def find_pharm_sold_mask_sort(request):
             "request_data": request.query_params
             })
     
+@api_view(['GET'])
+def find_pharm_num_mask_price_range(request):
+    req_num = request.query_params.get('num')
+    req_compare = request.query_params.get('compare')
+    req_low_price = request.query_params.get('low_price')
+    req_high_price = request.query_params.get('high_price')
+    """
+    {
+        "low_price": 10
+        "high_price": 30,
+        "num": 2,
+        "compare": more or less
+    }
+    """
+    # List each pharm name and count number of mask
+    pharm_num_of_mask = \
+        PharMacies.objects.values('name') \
+        .filter(mask__price__gte=int(req_low_price), mask__price__lte=int(req_high_price)) \
+        .annotate(c=Count("mask")) \
+    # compare 
+    if req_compare == "more": 
+        pharm_num_of_mask_count =pharm_num_of_mask.filter(c__gt=int(req_num))
+    elif req_compare == "less": 
+        pharm_num_of_mask_count =pharm_num_of_mask.filter(c__lt=int(req_num))
+
+    pharm_name = list(map(lambda phar: phar['name'], pharm_num_of_mask_count))
+
+    return Response({ 
+            "num_of_mask_count_pharm_name": pharm_name,
+            "request_data": request.query_params
+            })
+
 
