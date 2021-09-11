@@ -130,3 +130,29 @@ def find_user_date_range_top_total_amount(request):
             })
 
 
+@api_view(['GET'])
+def find_total_mask_num_dollar_date_range(request):
+    req_low_day = request.query_params.get('low_day')
+    req_high_day = request.query_params.get('high_day')
+    """
+    {
+        "low_day": 2021-01-27,
+        "high_day": 2021-04-01,
+    }
+    """
+    # purchase total mask within date range
+    purchase_total_mask = PurchaseHistory.objects \
+                          .filter(trans_date__range=[req_low_day, req_high_day]) \
+                          .aggregate(total_masks=Count('mask_name'))
+
+    # purchase total mask_amount within date range
+    purchase_total_mask_dollar = PurchaseHistory.objects \
+                                 .filter(trans_date__range=[req_low_day, req_high_day]) \
+                                 .aggregate(total_mask_dollar=Sum('trans_amount'))
+    
+    return Response({ 
+            "total_masks": purchase_total_mask,
+            "total_mask_dollar": purchase_total_mask_dollar,
+            "request_data": request.query_params
+            })
+
