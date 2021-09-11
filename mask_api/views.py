@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.db.models import Count
+from django.db.models import Count, Sum
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from mask_api.models import PharMacies, Mask, OpeningHour
+from mask_api.models import PharMacies, Mask, OpeningHour, User, PurchaseHistory
 from django.core import serializers
 
 
@@ -97,6 +97,35 @@ def find_pharm_num_mask_price_range(request):
 
     return Response({ 
             "num_of_mask_count_pharm_name": pharm_name,
+            "request_data": request.query_params
+            })
+
+
+@api_view(['GET'])
+def find_user_date_range_top_total_amount(request):
+    req_low_day = request.query_params.get('low_day')
+    req_high_day = request.query_params.get('high_day')
+    req_num = request.query_params.get('num')
+    """
+    { 
+        "low_day": 2021-01-27,
+        "high_day": 2021-04-01,
+        "num": 2
+    }
+    """
+    # list masks transaction amount
+    user_date_range_amount_total = \
+        User.objects.values('name') \
+        .filter(purchasehistory__trans_date__range=[req_low_day, req_high_day]) \
+        .annotate(trans_amount_sum=Sum('purchasehistory__trans_amount'))
+
+    # user_amount_limit_num
+    user_total_amount_limit_num = \
+        user_date_range_amount_total \
+        .order_by('-trans_amount_sum')[:int(req_num)]
+
+    return Response({ 
+            "user_top_amount": [user['name'] for user in user_total_amount_limit_num],
             "request_data": request.query_params
             })
 
