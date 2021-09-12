@@ -3,7 +3,9 @@ from django.db.models import Count, Sum
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from mask_api.models import PharMacies, Mask, OpeningHour, User, PurchaseHistory
+from mask_api.transaction import user_purchase
 from django.core import serializers
+import json
 
 
 @api_view(['GET'])
@@ -185,3 +187,21 @@ def search_pharm_mask_name(request):
             "request_data": request.query_params
             })
 
+@api_view(['POST'])
+def user_purchase_mask_atomic(request):
+    req_data = json.loads(request.body)
+    req_user = req_data['user']
+    req_pharm = req_data['pharm']
+    req_mask = req_data['mask']
+    """
+        "user": "Eric Underwood",
+        "pharm": "Better You",
+        "mask": "AniMask (blue) (10 per pack)",
+    }
+    """
+    result = user_purchase(req_user, req_pharm, req_mask)
+    
+    return Response({ 
+            "atomic": result,
+            "request_data": request.query_params
+            })

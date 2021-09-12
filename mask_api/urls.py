@@ -10,5 +10,6 @@ urlpatterns=[
     path('find_total_mask_num_dollar_date_range/', views.find_total_mask_num_dollar_date_range, name='find_total_mask_num_dollar_date_range'),
     path('find_total_mask_num_dollar_date_range/', views.find_total_mask_num_dollar_date_range, name='find_total_mask_num_dollar_date_range'),
     path('search_pharm_mask_name/', views.search_pharm_mask_name, name='search_pharm_mask_name'),
+    path('user_purchase_mask_atomic/', views.user_purchase_mask_atomic, name='user_phurchase_mask_atomic'),
 ]
 
