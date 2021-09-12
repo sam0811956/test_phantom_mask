@@ -161,7 +161,7 @@ def find_total_mask_num_dollar_date_range(request):
 
 @api_view(['GET'])
 def search_pharm_mask_name(request):
-    from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
+    from django.db.models import Q, ExpressionWrapper, BooleanField
     """
     { "search": "pharmacies",
       "query": "PharMacies"
@@ -169,22 +169,22 @@ def search_pharm_mask_name(request):
     """
     req_search = request.query_params.get('search')
     req_query = request.query_params.get('query')
-   
-    vector = SearchVector('name')
-    query = SearchQuery(req_query)
+    
+    if req_search == "pharm":
+        pharm = PharMacies.objects.filter(name__icontains=req_query)
+        pharm_startswith_query = Q(name__startswith=req_query)
+        match = ExpressionWrapper(pharm_startswith_query, output_field=BooleanField())
+        result = pharm.annotate(rank=match).order_by('-rank')
 
-    if req_search == "pharmacies":
-        result = PharMacies.objects.annotate(
-                    rank=SearchRank(vector, query)
-                    ).filter(rank__gte=0.03).order_by('-rank')
     elif req_search == "mask":
-        result = Mask.objects.annotate(
-                    rank=SearchRank(vector, query)
-                    ).filter(rank__gte=0.03).order_by('-rank')
+        mask = Mask.objects.filter(name__icontains=req_query)
+        mask_startswith_query = Q(name__startswith=req_query)
+        match = ExpressionWrapper(mask_startswith_query, output_field=BooleanField())
+        result = mask.annotate(rank=match).order_by('-rank')     
 
     return Response({ 
-            "search": [str(res) for res in result],
-            "request_data": request.query_params
+            "search": [res.name for res in result],
+            "request_data": request.query_params,
             })
 
 @api_view(['POST'])

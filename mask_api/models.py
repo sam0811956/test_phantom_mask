@@ -1,19 +1,18 @@
 from django.db import models
+from django.contrib.postgres.search import SearchVectorField
 
 class PharMacies(models.Model):
     name = models.CharField(max_length=100, null=False)
     cashbalance = models.FloatField(null=False)
-#    objects = PharMaciesManager()
 
     def __str__(self):
         return '{0} (cash: {1})'.format(self.name, self.cashbalance)
-
+	
 
 class Mask(models.Model):
     pharmacies = models.ForeignKey(PharMacies, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=False)
     price = models.FloatField(null=False)
-#    objects = MaskManager()
 
     def __str__(self):
         return '{0} (price: {1})'.format(self.name, self.price)
