@@ -1,7 +1,7 @@
 import dj_database_url
 from .settings import *
 
-DATABASEs = {
+DATABASES = {
     'defalt': dj_database_url.config()
 }
 STATIC_ROOT = 'static'
