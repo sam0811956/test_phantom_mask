@@ -3,18 +3,19 @@
 
 ## Required
 ### API Document
-  Import [this](#api-document) json file to Postman
+  https://sam0811956.docs.apiary.io/#reference/0/api-collection/list-all-pharmacies-that-are-open-at-a-certain-time
 
 ### Import Data Commands
-  `rake import_data:book_store[PATH_TO_FILE]`
-  `rake import_data:user[PATH_TO_FILE]`
+  `python makemigrations`
+  `python migrate`
 
 ## Bonus
 ### Test Coverage Report
-  check report [here](#test-coverage-report)
+  check report 
+![image](https://user-images.githubusercontent.com/32931993/133278739-73d64a96-29f0-428e-ba6d-cf6b927cc798.png)
 
 ### Dockerized
-  check my dockerfile [here](#dockerized)
+  check my dockerfile !
 
 ### Demo Site Url
-  demo site is ready on [heroku](#demo-site-url)
+  demo site is ready on https://phantom-mask-api.herokuapp.com/
