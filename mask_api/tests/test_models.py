@@ -61,7 +61,3 @@ class Test_Model(TestCase):
         purchase = PurchaseHistory.objects.get(id=1)
         self.assertEqual(purchase.user.name, "Eric Underwood")
 
-                
-           
-
-
