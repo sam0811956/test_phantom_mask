@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Eric Underwood",
+    "cashBalance": 952.69,
+    "purchaseHistories": [
+      {
+        "pharmacyName": "Neighbors",
+        "maskName": "Masquerade (black) (3 per pack)",
+        "transactionAmount": 9.26,
+        "transactionDate": "2021-01-02 20:41:02"
+      },
+      {
+        "pharmacyName": "RxToMe",
+        "maskName": "Masquerade (green) (6 per pack)",
+        "transactionAmount": 12.01,
+        "transactionDate": "2021-01-04 11:29:05"
+      },
+      {
+        "pharmacyName": "Atlas Drugs",
+        "maskName": "MaskT (black) (6 per pack)",
+        "transactionAmount": 8.9,
+        "transactionDate": "2021-01-07 03:49:25"
+      },
+      {
+        "pharmacyName": "Atlas Drugs",
+        "maskName": "Second Smile (green) (6 per pack)",
+        "transactionAmount": 7.3,
+        "transactionDate": "2021-01-22 09:27:11"
+      },
+      {
+        "pharmacyName": "PrecisionMed",
+        "maskName": "MaskT (blue) (3 per pack)",
+        "transactionAmount": 7.01,
+        "transactionDate": "2021-01-26 03:41:14"
+      }
+    ]
+  }
+]
