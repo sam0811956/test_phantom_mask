@@ -18,8 +18,8 @@ def find_pharm_op_weekday_hour(request):
     '''
     {
         'weekday':'Mon',
-        'hour': '10',
-        'min' : '10'
+        'hour': 10,
+        'min' : 10
     }
     '''
     req_weekday = request.query_params.get('weekday')
@@ -81,7 +81,7 @@ def find_pharm_num_mask_price_range(request):
         "low_price": 10
         "high_price": 30,
         "num": 2,
-        "compare": more or less
+        "compare": "more" or "less"
     }
     """
     # List each pharm name and count number of mask
@@ -98,7 +98,8 @@ def find_pharm_num_mask_price_range(request):
     pharm_name = list(map(lambda phar: phar['name'], pharm_num_of_mask_count))
 
     return Response({ 
-            "num_of_mask_count_pharm_name": pharm_name,
+#"num_of_mask_count_pharm_name": pharm_name,
+            "num_of_mask_count_pharm_name": [phar['name'] for phar in pharm_num_of_mask_count],
             "request_data": request.query_params
             })
 
@@ -110,8 +111,8 @@ def find_user_date_range_top_total_amount(request):
     req_num = request.query_params.get('num')
     """
     { 
-        "low_day": 2021-01-27,
-        "high_day": 2021-04-01,
+        "low_day": "2021-01-27",
+        "high_day": "2021-04-01",
         "num": 2
     }
     """
@@ -163,24 +164,24 @@ def find_total_mask_num_dollar_date_range(request):
 def search_pharm_mask_name(request):
     from django.db.models import Q, ExpressionWrapper, BooleanField
     """
-    { "search": "pharmacies",
-      "query": "PharMacies"
+    { "search": "pharm",
+      "query": "Med"
     }
     """
     req_search = request.query_params.get('search')
     req_query = request.query_params.get('query')
     
     if req_search == "pharm":
-        pharm = PharMacies.objects.filter(name__icontains=req_query)
+        pharm = PharMacies.objects.filter(name__icontains=req_query).distinct()
         pharm_startswith_query = Q(name__startswith=req_query)
         match = ExpressionWrapper(pharm_startswith_query, output_field=BooleanField())
-        result = pharm.annotate(rank=match).order_by('-rank')
+        result = pharm.annotate(rank=match).order_by('-rank')[:10]
 
     elif req_search == "mask":
-        mask = Mask.objects.filter(name__icontains=req_query)
+        mask = Mask.objects.filter(name__icontains=req_query).distinct()
         mask_startswith_query = Q(name__startswith=req_query)
         match = ExpressionWrapper(mask_startswith_query, output_field=BooleanField())
-        result = mask.annotate(rank=match).order_by('-rank')     
+        result = mask.annotate(rank=match).order_by('-rank')[:10]
 
     return Response({ 
             "search": [res.name for res in result],
