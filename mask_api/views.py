@@ -98,7 +98,6 @@ def find_pharm_num_mask_price_range(request):
     pharm_name = list(map(lambda phar: phar['name'], pharm_num_of_mask_count))
 
     return Response({ 
-#"num_of_mask_count_pharm_name": pharm_name,
             "num_of_mask_count_pharm_name": [phar['name'] for phar in pharm_num_of_mask_count],
             "request_data": request.query_params
             })
