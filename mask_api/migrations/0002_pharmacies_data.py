@@ -14,7 +14,7 @@ def parse_op_hour(op_h_str):
 
     for time_item in op_h_str.split('/'):
         week_days_datas = re.findall(
-            "(Mon|Tues|Wed|Thurs|Fri|Sat|Sun)+", time_item)
+            "(Mon|Tue|Wed|Thu|Fri|Sat|Sun)+", time_item)
         hour_datas = re.findall("(\d+):(\d+)", time_item)
         hour_min_datas = set_hours_mins_data(hour_datas)
 
