@@ -20,9 +20,9 @@ class Mask(models.Model):
 class OpeningHour(models.Model):
     class WeekDay(models.TextChoices):
         MON = "Mon", "Monday"
-        TUES = "Tues", "Tuesday"
+        TUES = "Tue", "Tuesday"
         WED = "Wed", "Wednesday"
-        THURS = "Thurs", "Thursday"
+        THURS = "Thu", "Thursday"
         FRI = "Fri", "Friday"
         SAT = "Sat", "Saturday"
         SUN = "Sun", "Sunday"
