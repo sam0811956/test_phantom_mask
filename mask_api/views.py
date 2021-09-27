@@ -39,7 +39,6 @@ def find_pharm_op_weekday_hour(request):
    
     return Response({ 
             "open_pharmacies": pharmacies_op_name,
-            "request_data": request.query_params
             })
 
     
@@ -67,7 +66,6 @@ def find_pharm_sold_mask_sort(request):
 
     return Response({ 
             "mask_sort": mask_sort,
-            "request_data": request.query_params
             })
     
 @api_view(['GET'])
@@ -99,7 +97,6 @@ def find_pharm_num_mask_price_range(request):
 
     return Response({ 
             "num_of_mask_count_pharm_name": [phar['name'] for phar in pharm_num_of_mask_count],
-            "request_data": request.query_params
             })
 
 
@@ -128,7 +125,6 @@ def find_user_date_range_top_total_amount(request):
 
     return Response({ 
             "user_top_amount": [user['name'] for user in user_total_amount_limit_num],
-            "request_data": request.query_params
             })
 
 
@@ -155,7 +151,6 @@ def find_total_mask_num_dollar_date_range(request):
     return Response({ 
             "total_masks": purchase_total_mask,
             "total_mask_dollar": purchase_total_mask_dollar,
-            "request_data": request.query_params
             })
 
 
@@ -184,7 +179,6 @@ def search_pharm_mask_name(request):
 
     return Response({ 
             "search": [res.name for res in result],
-            "request_data": request.query_params,
             })
 
 @api_view(['POST'])
@@ -203,5 +197,4 @@ def user_purchase_mask_atomic(request):
     
     return Response({ 
             "atomic": result,
-            "request_data": request.query_params
             })
